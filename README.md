@@ -18,6 +18,7 @@ ln -s /home/smg/v-zhonglifan/data/IRMAS ./imras_data
 ln -s /home/smg/v-xuanshi/DATA/nsynth ./nsynth_data
 mkdir metadata
 cp -r '/home/smg/v-zhonglifan/InstrumentRecognition/exp22-maybefinal/metadata' ./metadata
+cp /home/smg/v-zhonglifan/InstrumentRecognition/c-IR/IRModels.tar.gz .
 ```
 
 ### Download Data
