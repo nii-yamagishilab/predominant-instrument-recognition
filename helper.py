@@ -1,5 +1,9 @@
 # from doraemon.models.resnet50 import IRResNet50
-from doraemon.models.mie.backbones import resnet34, se_resnet34, resnet50, visual_resnet50, shared_resnet34
+import glob
+import os.path
+
+from tqdm import tqdm
+from src.models.mie.backbones import resnet34, se_resnet34, resnet50, visual_resnet50, shared_resnet34
 # from doraemon.models.instr_emd_sinc_model import InstrEmdSincModel
 # from doraemon.utils import Config
 import torch
@@ -8,7 +12,7 @@ import sys
 # from doraemon.datasets.nsynth_dataset import NSynthDataset
 import torch.nn as nn
 from torchaudio_augmentations import *
-from doraemon.lms.mie import InstrumentRecognizer
+from src.lms.mie import InstrumentRecognizer
 from torchsummary import summary
 
 
@@ -109,13 +113,38 @@ def set_model():
     # feature_extractor.fc11.fc = torch.nn.Linear(in_features=feature_extractor.fc11.fc.in_features, out_features=11)
 
 
+def rename_project_file():
+    file_lst = glob.glob(os.path.join('./','**/*.sh'),recursive=True)
+    for file_path in tqdm(file_lst):
+        with open(file_path, 'r') as file:
+            filedata = file.read()
+
+        # Replace the target string
+        filedata = filedata.replace('doraemon', 'src')
+
+        # Write the file out again
+        with open(file_path, 'w') as file:
+            file.write(filedata)
+
+def rename_model_file():
+    ckpt_path = '/home/smg/v-zhonglifan/InstrumentRecognition/c-IR/model_ckpt_tmp/irnet4nsynth.ckpt'
+    ckpt_dir = os.path.dirname(ckpt_path)
+    ckpt_name = os.path.basename(ckpt_path)
+    ckpt = torch.load(ckpt_path)
+    ckpt['hyper_parameters']['result_folder'] = './irnet'
+    # ckpt['hyper_parameters']['model_path'] = './src/lms/mie.py'
+    # ckpt['hyper_parameters']['pretrained'] = './tb_logs' + ckpt['hyper_parameters']['pretrained'].strip().split('tb_logs')[1]
+    torch.save(ckpt,os.path.join(ckpt_dir,ckpt_name))
+
 if __name__ == '__main__':
     # load_model(cfg_path='mie_config.py')
     # check_bce()
-    check_resnet()
+    # check_resnet()
     # set_model()
     # x = torch.rand(4,5)
     # y = torch.randint(5, size=(4,))
     # print(x)
     # print(y)
     # print(x[range(4),y])
+    # rename_project_file()
+    rename_model_file()

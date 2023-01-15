@@ -10,14 +10,14 @@
 
 source /home/smg/v-zhonglifan/miniconda3/bin/activate ir
 
-seed=906
-epoch=40
-lr=2.5e-4
+seed=1231
+epoch=400
+lr=1e-3
 warmup=5
-bs=64
-LR_SCHED="cosine"
-RESULT_DIR="irnet-adamw-wd-1.8"
-PREFIX="seed-$seed-lr-$lr-bs-$bs-epoch-$epoch-warmup-$warmup-lkrelu"
+bs=128
+LR_SCHED="restart-75-0.75"
+RESULT_DIR="irnet-start-sgd"
+PREFIX="seed-$seed-lr-$lr-bs-$bs-epoch-$epoch-warmup-$warmup-5e-4-$LR_SCHED"
 model_name="irmas_mie"
 
 python tune.py \
@@ -25,7 +25,7 @@ python tune.py \
 --gpus 1 \
 --prefix $PREFIX \
 --pretrained "/home/smg/v-zhonglifan/InstrumentRecognition/exp22-maybefinal/tb_logs/irnet/seed-$seed-mixup_alpha-0.4/checkpoints/last.ckpt" \
---model_path "./doraemon/lms/$model_name.py" \
+--model_path "./src/lms/$model_name.py" \
 --result_folder "./$RESULT_DIR" \
 --train_meta_path 'metadata/irmas_slice_train.json' \
 --valid_meta_path 'metadata/irmas_slice_valid.json' \
@@ -39,7 +39,7 @@ python tune.py \
 --normalize_amp \
 --csf 'mlp' \
 --label_smoothing 0.0 \
---optim "adamw" \
+--optim "sgd" \
 --mixup_p 0.0 \
 --mixup_alpha 0.2 \
 

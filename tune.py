@@ -27,12 +27,13 @@ def callback_list():
         monitor="valid_acc",
         mode="max",
         filename="{epoch}-{valid_acc:.3f}",
-        save_top_k=2,
+        save_top_k=2, # 2
+        # every_n_epochs=40, # added
         save_weights_only=True,
         save_last=True,
     )
     els = EarlyStopping(monitor='valid_acc',
-                        patience=30,
+                        patience=300,
                         mode='max')
     cblist.append(lr_monitor)
     cblist.append(checkpointer)

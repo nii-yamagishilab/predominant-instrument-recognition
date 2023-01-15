@@ -26,7 +26,7 @@ python train.py \
 --prefix $PREFIX \
 --model_cfg_path './model_configs/reduced_3-3-4-3.py' \
 --nsynth_pretrained '' \
---model_path "./doraemon/lms/$model_name.py" \
+--model_path "./src/lms/$model_name.py" \
 --result_folder "./$RESULT_DIR" \
 --last_epoch 30 \
 --warmup 3 \

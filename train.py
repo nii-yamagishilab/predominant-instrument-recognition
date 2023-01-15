@@ -134,7 +134,7 @@ if __name__ == '__main__':
             callbacks=callbacks,
             deterministic=True,
             logger=logger,
-            enable_progress_bar=True
+            enable_progress_bar=True,
         )
         trainer.fit(model)
 

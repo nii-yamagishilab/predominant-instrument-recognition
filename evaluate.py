@@ -2,7 +2,7 @@ import argparse
 import os.path
 import glob
 
-from doraemon import Evaluator
+from src import Evaluator
 import warnings
 
 warnings.filterwarnings("ignore")

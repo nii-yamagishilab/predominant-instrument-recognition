@@ -25,7 +25,7 @@ python tune.py \
 --gpus 1 \
 --prefix $PREFIX \
 --pretrained "tb_logs/irnet-no-aug/seed-906-mixup_alpha-0.4/hparams.yaml" \
---model_path "./doraemon/lms/$model_name.py" \
+--model_path "./src/lms/$model_name.py" \
 --result_folder "./$RESULT_DIR" \
 --train_meta_path 'metadata/irmas_slice_train.json' \
 --valid_meta_path 'metadata/irmas_slice_valid.json' \
