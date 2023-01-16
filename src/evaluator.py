@@ -49,10 +49,12 @@ class Evaluator():
         self.test(note)
 
     @torch.no_grad()
-    def test(self, note='', activation='sigmoid',pp='average', tem=1.0, seg_dur=3, add_up=False):
+    def test(self, note='', activation='sigmoid',pp='average', tem=1.0, seg_dur=3, add_up=False, model_summary=False):
         print('------------Testing------------')
         print('[INFO]Activation Function: {}'.format(activation))
         print('[INFO]Post Processing: {}'.format(pp))
+        if model_summary:
+            print(ModelSummary(self.model))
         if add_up:
             print('[INFO]Adding up all the segments for inference')
         if activation == 'softmax' and tem != 1.0:

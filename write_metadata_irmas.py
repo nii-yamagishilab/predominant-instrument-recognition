@@ -1,6 +1,8 @@
 import json
 import glob
 import os
+import random
+
 from sklearn.model_selection import train_test_split
 from collections import defaultdict
 from tqdm import tqdm
@@ -195,7 +197,47 @@ def slice():
     with open(os.path.join('metadata', 'irmas_slice_valid.json'), 'w') as bb:
         json.dump(slice_meta['valid'], bb, indent=4)
 
+def less_data(ratio):
+    import collections
+    random.seed(730)
+    pool = defaultdict(list)
+    with open(f'metadata/irmas_slice_train.json') as f:
+        meta = json.load(f)
+        for k,v in meta.items():
+            pool[v['instrument_str']].append(k)
+    n_train = len(meta)
+    # below 60 --> equally sample
+    mnf = collections.OrderedDict()
+    sampled = []
+    if ratio < 0.65:
+        n_samples = int(n_train * ratio / 11)
+        for kk, vv in pool.items():
+            sampled += random.sample(vv,n_samples)
+    elif ratio < 1.0:
+        n_samples = int(n_train * ratio)
+        sampled = random.sample(list(meta.keys()), n_samples)
+    elif ratio == 1.2:
+        # use all training set (no split)
+        with open(f'metadata/irmas_slice_valid.json') as ff:
+            valid_meta = json.load(ff)
+        for kkk,vvv in valid_meta.items():
+            mnf[kkk] = vvv
+        for kkkk,vvvv in meta.items():
+            mnf[kkkk] = vvvv
+    else:
+        raise NotImplementedError
+
+    if ratio != 1.2:
+        for sample in sampled:
+            mnf[sample] = meta[sample]
+    print('total samples=', len(mnf))
+    with open(os.path.join('metadata/less_data', 'ratio-{}.json'.format(ratio)), 'w') as gg:
+        json.dump(mnf, gg, indent=4)
+
+
+
 if __name__ == '__main__':
     write_train_manifest(path='irmas_data/IRMAS-TrainingData',metadata_path='metadata')
     write_test_metadata(path='irmas_data/IRMAS-TestingData',metadata_path='metadata')
     slice()
+    # less_data(1.2)

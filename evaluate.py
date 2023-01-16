@@ -2,7 +2,8 @@ import argparse
 import os.path
 import glob
 
-from src import Evaluator
+import numpy as np
+from doraemon import Evaluator
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -50,6 +51,72 @@ if __name__ == '__main__':
     }
     if args.model_name:
         config['model_name'] = args.model_name
+
+    if args.mode == 'report':
+        import statistics
+        import pandas as pd
+
+        print("---------Making Reports----------")
+        results = {}
+        avg_results = {}
+        if args.model_name == 'irmas_mie':
+            lr = '2.5e-4'
+        elif args.model_name == 'no_pre_irmas_mie':
+            lr = '3.5e-3'
+        for seed_n in [1231, 2233, 906]:
+            model_summary = True if seed_n == 1231 else False
+            dir_name = 'seed-{}-lr-{}-bs-64-epoch-40-warmup-5'.format(seed_n, lr)
+            if args.model_name == 'no_pre_irmas_mie':
+                dir_name += '-relu'
+            ckpt = os.path.join(args.ckpt_dir, dir_name, 'checkpoints', 'last.ckpt')
+            print('currently evaluating: {}'.format(ckpt))
+            config['ckpt'] = ckpt
+            e = Evaluator(**config)
+            results['seed-{}'.format(seed_n)] = e.test(activation=args.act,
+                                                       pp=args.pp,
+                                                       tem=args.tem,
+                                                       seg_dur=args.seg_dur,
+                                                       add_up=args.add_up,
+                                                       model_summary=model_summary,
+                                                       )
+            print(results['seed-{}'.format(seed_n)]['iw'])
+        iw_lst = []
+        iw_results = {}
+        f1_micro_lst = []
+        f1_macro_lst = []
+        lrap_lst = []
+        for k, v in results.items():
+            f1_micro_lst.append(float(v['best_f1_micro']))
+            f1_macro_lst.append(float(v['best_f1_macro']))
+            lrap_lst.append(float(v['LRAP']))
+            iw_lst.append(v['iw'])
+            iw_results[k] = v['iw']
+
+        avg_f1_micro = round(statistics.mean(f1_micro_lst), 3)
+        std_f1_micro = round(statistics.stdev(f1_micro_lst), 4)
+
+        avg_f1_macro = round(statistics.mean(f1_macro_lst), 3)
+        std_f1_macro = round(statistics.stdev(f1_macro_lst), 4)
+
+        avg_lrap = round(statistics.mean(lrap_lst), 3)
+        std_lrap = round(statistics.stdev(lrap_lst), 4)
+
+        avg_iw = np.mean(iw_lst, 0)
+        iw_lst.append(avg_iw)
+
+        reports = {
+            'f1_micro': [avg_f1_micro, std_f1_micro],
+            'f1_macro': [avg_f1_macro, std_f1_macro],
+            'LRAP': [avg_lrap, std_lrap],
+        }
+        df0 = pd.DataFrame.from_dict(reports)
+        df0.to_csv(os.path.join(args.ckpt_dir, 'test-mean+std.csv'))
+        print(reports)
+
+        iw_results['average'] = np.around(iw_lst[-1], decimals=3)
+        df = pd.DataFrame.from_dict(iw_results)
+        df.to_csv(os.path.join(args.ckpt_dir, 'instrument-wise-analysis.csv'))
+        exit()
 
     if args.ckpt_dir:
         ckpts = glob.glob(os.path.join(args.ckpt_dir, '**/*.ckpt'), recursive=True)
