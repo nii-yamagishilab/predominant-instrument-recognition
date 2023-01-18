@@ -3,7 +3,7 @@ import os.path
 import glob
 
 import numpy as np
-from doraemon import Evaluator
+from src import Evaluator
 import warnings
 
 warnings.filterwarnings("ignore")

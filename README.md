@@ -14,9 +14,8 @@ Here's a list of some key pakages for our experiments, for more details please r
 
 If you are a member of Yamagishi-lab,NII just do:
 ```
-ln -s /home/smg/v-zhonglifan/data/IRMAS ./imras_data
+ln -s /home/smg/v-zhonglifan/data/IRMAS ./irmas_data
 ln -s /home/smg/v-xuanshi/DATA/nsynth ./nsynth_data
-mkdir metadata
 cp -r '/home/smg/v-zhonglifan/InstrumentRecognition/exp22-maybefinal/metadata' ./metadata
 cp /home/smg/v-zhonglifan/InstrumentRecognition/c-IR/IRModels.tar.gz .
 ```
@@ -46,7 +45,7 @@ For fine-tuning, download the [IRMAS](https://www.upf.edu/web/mtg/irmas) data an
             - (02) dont kill the whale-1.wav
         - Part2
         - Part3
-    - IMRAS-TrainingData
+    - IRMAS-TrainingData
         - cel
             - 008__[cel][nod][cla]0058__1.wav
         - cla

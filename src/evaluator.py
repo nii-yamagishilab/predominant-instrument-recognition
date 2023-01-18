@@ -61,7 +61,7 @@ class Evaluator():
             print('[INFO]Softmax Temperature: {}'.format(tem))
         if not note:
             note = self.ckpt.split('checkpoints/')[1].split('-')[0]
-        thresholds = np.arange(0.0, 0.16, 0.02)
+        thresholds = np.arange(0.0, 0.80, 0.02)
         res = {}
         save_dir = self.ckpt.split('checkpoints')[0]
         preds_list = []
@@ -116,20 +116,36 @@ class Evaluator():
 
         lrap = LRAP(labels_list, preds_list)
 
+        # instrument-wise analysis of F1-score.
+        res_iw = {}
         for i, th in enumerate(thresholds):
             predictions = self.apply_threshold(preds=preds_list, threshold=th)
             results = self.compute_score(preds=predictions, labels=labels_list)
             results.update({'threshold': "{:.2f}".format(th)})
             res[i] = results
+            res_iw['{:.2f}'.format(th)] = f1_score(
+                y_true=labels_list,
+                y_pred=predictions,
+                average=None,
+            )
 
         res = pd.DataFrame.from_dict(res,orient='index',columns=res[0].keys())
         best_f1 = res['f1_score_micro'].max()
-        # best_f1 = 'lol'
+        best_f1_macro = res.loc[res.f1_score_micro.idxmax(), 'f1_score_macro']
+        iw = res_iw[res.loc[res.f1_score_micro.idxmax(), 'threshold']]
+
         if note:
             note += '-LRAP-{:.3f}-{}-{}-'.format(lrap,activation,pp)
-        save_name = save_dir + note + 'evaluation_f1={}--tem={}'.format(best_f1, tem) + '.csv'
+        save_name = save_dir + note + 'evaluation_f1={}-f1_macro={}'.format(best_f1, best_f1_macro) + '.csv'
         print('best-f1-micro = {}, tem = {}'.format(best_f1, tem))
         res.to_csv(save_name)
+
+        return {
+            'best_f1_micro': best_f1,
+            'best_f1_macro': best_f1_macro,
+            'LRAP': lrap,
+            'iw': iw,
+        }
 
     @torch.no_grad()
     def plot(self, note='', dpi=250,normalize=True,tsne_cmap='hls'):
