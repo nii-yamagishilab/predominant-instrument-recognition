@@ -12,14 +12,6 @@ Here's a list of some key pakages for our experiments, for more details please r
 
 ## Data Preparation
 
-If you are a member of Yamagishi-lab,NII just do:
-```
-ln -s /home/smg/v-zhonglifan/data/IRMAS ./irmas_data
-ln -s /home/smg/v-xuanshi/DATA/nsynth ./nsynth_data
-cp -r '/home/smg/v-zhonglifan/InstrumentRecognition/exp22-maybefinal/metadata' ./metadata
-cp /home/smg/v-zhonglifan/InstrumentRecognition/c-IR/IRModels.tar.gz .
-```
-
 ### Download Data
 For pre-training, download the [NSynth](https://magenta.tensorflow.org/nsynth) data and put it in `nsyth_data`. The structure of the directory is expected to be:
 ```
@@ -105,9 +97,6 @@ The results should be (let IRNet indicates our best model):
 
 Note that this may slightly differ from our results, since we report the average results of three experiments with the same setting except for random seed.
 
-If you are a member of Yamagishi-lab,NII, you can find all the trained weights in my folder `v-zhonglifan/InstrumentRecognition/exp22-maybefinal`.
-
-
 ## Pre-training
 Please refer to the scripts in `./experiments`.
 To pre-train a model on NSynth, run:
@@ -177,11 +166,7 @@ If you're interested in the parameter reduction experiments, you can look into `
 
 My implementation of shared residual blocks in PyTorch can be found in `src/models/mie/backbones/resnet.py`, which is a re-implementation of [ShaResNet](https://github.com/aboulch/sharesnet) [[arxiv](https://arxiv.org/abs/1702.08782)].
 
-## *notes
-If the codes run into errors when modified, or you find something confusing there. Here are some messages that might help:
-* The `src` directory was previously named `doraemon` when the released model checkpoints were trained.
-* Training was done by Pytorch-lightning modules, but inference was done separately with an Evaluator class in `src/evaluator`.
-
+## Contact Information
 If you have any further question, please contact: [zhong_lifan@yahoo.co.jp](zhong_lifan@yahoo.co.jp)
 
 
