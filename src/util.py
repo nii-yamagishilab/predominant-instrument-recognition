@@ -1,3 +1,9 @@
+# ==============================================================================
+# Copyright (c) 2023, Yamagishi Laboratory, National Institute of Informatics
+# Author: Lifan Zhong
+# All rights reserved.
+# ==============================================================================
+
 import json
 
 import numpy as np

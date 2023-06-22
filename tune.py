@@ -1,23 +1,18 @@
+# ==============================================================================
+# Copyright (c) 2023, Yamagishi Laboratory, National Institute of Informatics
+# Author: Lifan Zhong
+# All rights reserved.
+# ==============================================================================
+
 import importlib.machinery
-import torch
-import torch.nn as nn
 import pytorch_lightning as pl
-from torchmetrics import Accuracy
-import torchvision
-from torch.utils.data import DataLoader
 from pytorch_lightning.loggers import TensorBoardLogger
-from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint, StochasticWeightAveraging, EarlyStopping, ModelSummary
-import numpy as np
-import matplotlib.pyplot as plt
-import glob
+from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint, EarlyStopping, ModelSummary
 import argparse
-import yaml
 import time
 from datetime import datetime
 import warnings
 warnings.filterwarnings("ignore")
-
-# from doraemon import Evaluator
 
 
 def callback_list():
@@ -44,7 +39,6 @@ def callback_list():
     return cblist
 
 def get_args():
-    # 引数の導入
     parser = argparse.ArgumentParser()
     parser.add_argument('--train_meta_path', type=str, required=True)
     parser.add_argument('--valid_meta_path', type=str, required=True)
@@ -143,7 +137,3 @@ if __name__ == '__main__':
     end_time = time.time()
     time_spent = (end_time - start_time)/3600
     print('total training time = {:.3f} h'.format(time_spent))
-    # for ckpt_path in glob.glob('{}/**/*.ckpt'.format(result_folder), recursive=True):
-    #     e = Evaluator(model_path=model_path,
-    #                   feat_dir=test_dir)
-    #     e.test(ckpt_path,result_folder)
