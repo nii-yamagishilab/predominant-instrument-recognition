@@ -177,6 +177,7 @@ class InstrumentRecognizer(pl.LightningModule):
         del checkpoint['state_dict']['fc12.fc.bias']
         return checkpoint
 
+    # adapted from: https://github.com/facebookresearch/mixup-cifar10/
     def mixup_data(self, x, y, alpha=1.0):
         '''Returns mixed inputs, pairs of targets, and lambda'''
         if alpha > 0:
@@ -192,7 +193,6 @@ class InstrumentRecognizer(pl.LightningModule):
         return mixed_x, y_a, y_b, lam
 
     def cutmix_data(self, x, y, alpha=1.0):
-        '''Returns mixed inputs, pairs of targets, and lambda'''
         if alpha > 0:
             lam = np.random.beta(alpha, alpha)
         else:

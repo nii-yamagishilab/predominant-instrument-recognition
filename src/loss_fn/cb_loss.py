@@ -1,4 +1,4 @@
-# https://github.com/vandit15/Class-balanced-loss-pytorch/blob/master/class_balanced_loss.py
+# adapted from: https://github.com/vandit15/Class-balanced-loss-pytorch/blob/master/class_balanced_loss.py
 
 import numpy as np
 import torch

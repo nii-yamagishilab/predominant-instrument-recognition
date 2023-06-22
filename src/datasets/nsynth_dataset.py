@@ -1,3 +1,8 @@
+# ==============================================================================
+# Copyright (c) 2023, Yamagishi Laboratory, National Institute of Informatics
+# Authors: Lifan Zhong, Xuan Shi
+# All rights reserved.
+# ==============================================================================
 import json
 import os
 import random
@@ -151,13 +156,12 @@ class NSynthDataset(Dataset):
             v['instrument_family_rearrange'] = int(le.transform([i_f_s])[0])
             v['instrument_family_rearrange_str'] = i_f_s
 
-
+    # adapted from: https://github.com/Spijkervet/torchaudio-augmentations
     def augments(self):
         transforms = [
-            # RandomApply([PolarityInversion()], p=0.8),
             RandomApply([Noise(min_snr=0.001, max_snr=0.005)], p=0.3),
             RandomApply([Gain()], p=0.2),
-            HighLowPass(sample_rate=16000),  # this augmentation will always be applied in this aumgentation chain!
+            HighLowPass(sample_rate=16000),
             RandomApply([Delay(sample_rate=16000)], p=0.5),
             RandomApply([PitchShift(
                 n_samples=1,
