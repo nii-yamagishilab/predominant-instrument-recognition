@@ -1,3 +1,9 @@
+# ==============================================================================
+# Copyright (c) 2023, Yamagishi Laboratory, National Institute of Informatics
+# Author: Lifan Zhong
+# All rights reserved.
+# ==============================================================================
+
 #!/bin/sh
 #SBATCH -p qgpu
 #SBATCH --job-name=no-concat
@@ -8,7 +14,7 @@
 
 /bin/hostname
 
-source /home/smg/v-zhonglifan/miniconda3/bin/activate ir
+source {your_env}
 
 seed=906
 LR=1e-3

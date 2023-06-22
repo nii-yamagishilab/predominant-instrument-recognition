@@ -1,3 +1,8 @@
+# ==============================================================================
+# Copyright (c) 2023, Yamagishi Laboratory, National Institute of Informatics
+# Author: Lifan Zhong
+# All rights reserved.
+# ==============================================================================
 #!/bin/sh
 #SBATCH -p qgpu
 #SBATCH --job-name=finetune
@@ -8,7 +13,7 @@
 
 /bin/hostname
 
-source /home/smg/v-zhonglifan/miniconda3/bin/activate ir
+source {your_env}
 
 seed=1231
 epoch=40
@@ -25,7 +30,7 @@ python tune.py \
 --seed $seed \
 --gpus 1 \
 --prefix $PREFIX \
---pretrained "/home/smg/v-zhonglifan/InstrumentRecognition/exp22-maybefinal/tb_logs/$RESULT_DIR/seed-$seed-mixup_alpha-0.4/checkpoints/last.ckpt" \
+--pretrained "tb_logs/$RESULT_DIR/seed-$seed-mixup_alpha-0.4/checkpoints/last.ckpt" \
 --model_path "./src/lms/$model_name.py" \
 --result_folder "./$RESULT_DIR" \
 --train_meta_path 'metadata/irmas_slice_train.json' \

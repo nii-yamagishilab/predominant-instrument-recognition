@@ -13,13 +13,10 @@ import torch
 import numpy as np
 from sklearn.metrics import f1_score, precision_score, recall_score, accuracy_score
 from sklearn.metrics import label_ranking_average_precision_score as LRAP
-import pytorch_lightning as pl
+from pytorch_lightning.callbacks import ModelSummary
 import importlib.machinery
 from tqdm import tqdm
-import torchvision
-import torch.nn as nn
 import torch.nn.functional as F
-from torchmetrics import Accuracy
 import torch.multiprocessing
 torch.multiprocessing.set_sharing_strategy('file_system')
 
