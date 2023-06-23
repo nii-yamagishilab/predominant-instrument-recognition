@@ -53,6 +53,7 @@ class LDE(nn.Module):
 
 ## TODO
 ## MultiHead Implementation
+# adapted from: https://github.com/zyzisyz/mfa_conformer/blob/1b9c229948f8dbdbe9370937813ec75d4b06b097/module/_pooling.py
 class SAP(nn.Module):
     def __init__(self, dim:int, n_heads=1) -> None:
         """SAP

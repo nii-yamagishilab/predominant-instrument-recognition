@@ -1,3 +1,9 @@
+# ==============================================================================
+# Copyright (c) 2023, Yamagishi Laboratory, National Institute of Informatics
+# Author: Lifan Zhong
+# All rights reserved.
+# ==============================================================================
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -6,6 +12,7 @@ from torchinfo import summary
 from src.models.mie.transforms import SincConv
 
 
+# model implementation of (Han+ 2016)
 class IRNet(nn.Module):
     def __init__(self, num_classes=11):
         super(IRNet, self).__init__()
@@ -85,13 +92,9 @@ class IRNet(nn.Module):
         x = mel.unsqueeze(1)
         x = self.spec_bn(x)
 
-        # print(x.shape)
         x = self.layer1(x)
-        # print(x.shape)
         x = self.layer2(x)
-        # print(x.shape)
         x = self.layer3(x)
-        # print(x.shape)
         x = self.layer4(x)
         x = x.reshape(x.shape[0], -1)
         emb = self.emb(x)

@@ -1,7 +1,4 @@
-import os
-from collections import OrderedDict
-
-import torch
+# adapted from: https://github.com/Alexuan/musical_instrument_embedding by Lifan Zhong
 import torch.nn as nn
 
 from src.models.mie.backbones import resnet34, se_resnet34, resnet50, visual_resnet50, resnet50_e1, shared_resnet34, v_resnet34

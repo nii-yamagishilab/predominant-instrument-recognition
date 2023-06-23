@@ -73,8 +73,6 @@ python before_evaluate.py
 This will proceed the checkpoint files to the form as our codes expect, by moving them to a proper place and rewrite some dict values to help our code find the model structure config. 
 This is because our code expect the checkpoints to be in `{logs_dir}/{RESULT_DIR}/{PREFIX}/checkpoints/last.ckpt`, and rely on the config value to construct the model.
 
-Sorry this code is far from clean yet (・・；)
-
 After processing, run:
 ```
 (evaluate all the checkpoints in a specifc folder)
