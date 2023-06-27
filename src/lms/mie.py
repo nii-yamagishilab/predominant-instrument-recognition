@@ -1,16 +1,18 @@
+# ==============================================================================
+# Copyright (c) 2023, Yamagishi Laboratory, National Institute of Informatics
+# Author: Lifan Zhong
+# All rights reserved.
+# ==============================================================================
 import torch
 import torch.nn as nn
 import pytorch_lightning as pl
 from torchmetrics import Accuracy
-import torchvision
 from src.models.instr_emd_sinc_model import InstrEmdSincModel
 from src.datasets.nsynth_dataset import NSynthDataset
-from src.optimization import cosine_warmup_restart_exponential_decay, exponential_decay_with_warmup
+from src.optimization import exponential_decay_with_warmup
 from torch.utils.data import DataLoader
 import transformers
 import numpy as np
-import matplotlib.pyplot as plt
-import torch.nn.functional as F
 from src.utils import Config
 import random
 
@@ -175,6 +177,7 @@ class InstrumentRecognizer(pl.LightningModule):
         del checkpoint['state_dict']['fc12.fc.bias']
         return checkpoint
 
+    # adapted from: https://github.com/facebookresearch/mixup-cifar10/
     def mixup_data(self, x, y, alpha=1.0):
         '''Returns mixed inputs, pairs of targets, and lambda'''
         if alpha > 0:
@@ -190,7 +193,6 @@ class InstrumentRecognizer(pl.LightningModule):
         return mixed_x, y_a, y_b, lam
 
     def cutmix_data(self, x, y, alpha=1.0):
-        '''Returns mixed inputs, pairs of targets, and lambda'''
         if alpha > 0:
             lam = np.random.beta(alpha, alpha)
         else:
@@ -222,18 +224,8 @@ class InstrumentRecognizer(pl.LightningModule):
         return lam * criterion(pred, y_a) + (1 - lam) * criterion(pred, y_b)
 
     def prob(self):
-        s = next(iter(self.train_dataloader()))
-        print(o.shape)
-        print(s.shape)
-        # xx = o.view(o.size(0), -1)
-        # xx -= xx.min(1, keepdim=True)[0]
-        # xx /= xx.max(1, keepdim=True)[0]
-        # xx = xx.view(o.shape[0], o.shape[1], o.shape[2], o.shape[3])
-
-        from src.utils import plot_hist
-        plot_hist(o[46])
+        pass
 
 
 if __name__ == '__main__':
-    model = InstrumentRecognizer(data_dir='/home/zhong_lifan/data/IRMAS-Precomputed/ICASSP23/train/1024-log-mel')
-    model.prob()
+    pass

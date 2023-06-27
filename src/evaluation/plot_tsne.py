@@ -1,3 +1,8 @@
+# ==============================================================================
+# Copyright (c) 2023, Yamagishi Laboratory, National Institute of Informatics
+# Authors: Lifan Zhong, Xuan Shi
+# All rights reserved.
+# ==============================================================================
 import os
 import sys
 import glob

@@ -1,3 +1,6 @@
+# adapted from: https://github.com/speechbrain/speechbrain/
+# and https://github.com/Alexuan/musical_instrument_embedding
+
 import math
 import librosa
 import numpy as np

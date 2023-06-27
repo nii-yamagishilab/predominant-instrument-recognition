@@ -1,10 +1,7 @@
-import torch
-from torch import nn
+# Adapted from: https://github.com/huggingface/transformers by Lifan Zhong
 from torch.optim import Optimizer
 from torch.optim.lr_scheduler import LambdaLR
 import math
-
-# restart gamma 0.7 is too large
 
 def cosine_warmup_restart_exponential_decay(
         optimizer: Optimizer,

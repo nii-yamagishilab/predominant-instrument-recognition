@@ -14,8 +14,6 @@ __all__ = ['LDE','SAP']
 ### LDE
 ###############################################################################
 
-# TODO
-# tidy the code
 
 class LDE(nn.Module):
     def __init__(self, D, input_dim, with_bias=False, distance_type='norm', network_type='att', pooling='mean'):
@@ -42,13 +40,8 @@ class LDE(nn.Module):
         # regularization maybe
 
     def forward(self, x):
-        # print(x.size()) # (B, T, F)
-        # print(self.dic.size()) # (D, F)
         r = x.view(x.size(0), x.size(1), 1, x.size(2)) - self.dic # residaul vector
-        # print(r.size()) # (B, T, D, F)
         w = self.norm(r).view(r.size(0), r.size(1), r.size(2), 1) # numerator without r in Eq(5) in LDE paper
-        # print(self.norm(r).size()) # (B, T, D)
-        # print(w.size()) # (B, T, D, 1)
         w = w / (torch.sum(w, dim=1, keepdim=True) + 1e-9) #batch_size, timesteps, component # denominator of Eq(5) in LDE paper
         if self.pool == 'mean':
             x = torch.sum(w * r, dim=1) # Eq(5) in LDE paper
@@ -60,6 +53,7 @@ class LDE(nn.Module):
 
 ## TODO
 ## MultiHead Implementation
+# adapted from: https://github.com/zyzisyz/mfa_conformer/blob/1b9c229948f8dbdbe9370937813ec75d4b06b097/module/_pooling.py
 class SAP(nn.Module):
     def __init__(self, dim:int, n_heads=1) -> None:
         """SAP

@@ -1,6 +1,4 @@
-import math
-import numpy as np
-
+# adapted from: https://github.com/Alexuan/musical_instrument_embedding
 import torch
 import torch.nn as nn
 import torch.nn.init as init

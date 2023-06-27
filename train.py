@@ -1,24 +1,19 @@
+# ==============================================================================
+# Copyright (c) 2023, Yamagishi Laboratory, National Institute of Informatics
+# Author: Lifan Zhong
+# All rights reserved.
+# ==============================================================================
+
 import importlib.machinery
-import torch
-import torch.nn as nn
 import pytorch_lightning as pl
-from torchmetrics import Accuracy
-import torchvision
-from torch.utils.data import DataLoader
 from pytorch_lightning.loggers import TensorBoardLogger
-from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint, StochasticWeightAveraging, EarlyStopping, ModelSummary
+from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint, EarlyStopping, ModelSummary
 from pytorch_lightning.strategies import DDPStrategy
-import numpy as np
-import matplotlib.pyplot as plt
-import glob
 import argparse
-import yaml
 import time
 from datetime import datetime
 import warnings
 warnings.filterwarnings("ignore")
-
-# from doraemon import Evaluator
 
 
 def callback_list():
@@ -44,7 +39,6 @@ def callback_list():
     return cblist
 
 def get_args():
-    # 引数の導入
     parser = argparse.ArgumentParser()
     # parser.add_argument('--train_meta_path', type=str, required=True)
     # parser.add_argument('--valid_meta_path', type=str, required=True)
