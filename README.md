@@ -55,11 +55,11 @@ It takes some time to process NSynth, since we have to load the audio to check i
 You can find the processed manifest in `./metadata`.
 
 ## Trained Weights & Inference
-Firstly, download the [weights](TODO), unzip them:
+You can find our pre-trained weights in `./pretrained`. Unzip them in project folder:
 ```
-tar -xvf IRModels.tar.gz
+tar -xvf ./pretrained/IRModels.tar.gz
 ```
-You can find the unzipped pretrained weights in pair in `./model_ckpt_tmp`, and the folder looks like:
+Then the unzipped pretrained weights in pair will be in `./model_ckpt_tmp`, and the folder looks like:
 ```
 - model_ckpt_tmp
     - irnet4irmas.ckpt
