@@ -1,5 +1,11 @@
 Source codes for NSynth-Pretrained Predominant Instrument Recognition project.
 
+This repository is the implementation of our paper accepted to APSIPA ASC 2023:
+"Exploring Isolated Musical Notes as Pre-training Data for Predominant Instrument Recognition in Polyphonic Music," Lifan Zhong, Erica Cooper, Junichi Yamagishi, Nobuaki Minematsu.
+Preprint: https://arxiv.org/abs/2306.08850
+
+Please cite this paper if you use this code.
+
 ## Requirements
 Here's a list of some key pakages for our experiments, for more details please refer to `requirements.txt` file or `environment.yml` file.
 - Python 3.9.12
